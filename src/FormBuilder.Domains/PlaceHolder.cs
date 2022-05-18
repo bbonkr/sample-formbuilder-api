@@ -1,5 +1,5 @@
 ﻿namespace FormBuilder.Domains;
-public class Class1
+public class PlaceHolder
 {
 
 }
