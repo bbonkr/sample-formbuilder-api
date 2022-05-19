@@ -21,6 +21,7 @@ public class GetResultByIdQueryHandler : IRequestHandler<GetResultByIdQuery, Res
     public async Task<ResultModel> Handle(GetResultByIdQuery request, CancellationToken cancellationToken = default)
     {
         var resultModel = await _dbContext.Results
+            .Include(x=>x.Form)
             .Where(x => x.Id == request.Id)
             .Select(x => _mapper.Map<ResultModel>(x))
             .FirstOrDefaultAsync();
