@@ -24,7 +24,4 @@ FROM base as final
 WORKDIR /app
 COPY --from=build /app/out ./
 
-RUN mkdir -p /app/images
-RUN mkdir -p /app/thumbnails
-
 ENTRYPOINT ["dotnet", "FormBuilderApp.dll"]
