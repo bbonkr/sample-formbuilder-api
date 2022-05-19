@@ -1,8 +1,11 @@
 using FormBuilder.Domains.Results.Commands.AddResult;
+using FormBuilder.Domains.Results.Models;
 using FormBuilder.Domains.Results.Queries.GetResultById;
 using FormBuilder.Domains.Results.Queries.GetResults;
 using kr.bbon.AspNetCore;
+using kr.bbon.AspNetCore.Models;
 using kr.bbon.AspNetCore.Mvc;
+using kr.bbon.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +30,9 @@ public class ResultsController : ApiControllerBase
     /// <param name="query"></param>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType(typeof(PagedModel<ResultModel>), StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetResults([FromQuery] GetResultsQuery query)
     {
         var results = await _mediator.Send(query);
@@ -40,6 +46,10 @@ public class ResultsController : ApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(ResultModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetResultById([FromRoute] Guid id)
     {
         var query = new GetResultByIdQuery
@@ -57,6 +67,9 @@ public class ResultsController : ApiControllerBase
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost]
+    [ProducesResponseType(typeof(ResultModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> AddResult([FromBody] AddResultCommand command)
     {
         var result = await _mediator.Send(command);

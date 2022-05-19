@@ -4,15 +4,19 @@ using FormBuilder.Domains.Extensions.DependencyInjection;
 using FormBuilder.Services.Extensions.DependencyInjection;
 using FormBuilderApp.Extensions.DependencyInjection;
 using FormBuilderApp.Infrastructure.Filters;
+using FormBuilderApp.Infrastructure.Options;
 using kr.bbon.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var defaultVersion = new ApiVersion(1, 0);
+var corsOptions = new CorsOptions();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.ConfigureAppOptions();
+
+builder.Configuration.GetSection(CorsOptions.Name).Bind(corsOptions);
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
 
@@ -40,6 +44,24 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApiVersioningAndSwaggerGen(defaultVersion);
 
 builder.Services.AddForwardedHeaders();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+        
+        var allowOrigins = corsOptions.GetAllowOrigins();
+        if (allowOrigins == null)
+        {
+            policy.AllowAnyOrigin();
+        }
+        else
+        {
+            policy.WithOrigins(allowOrigins.ToArray());
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -55,7 +77,7 @@ app.UseSwaggerUIWithApiVersioning();
 // app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();

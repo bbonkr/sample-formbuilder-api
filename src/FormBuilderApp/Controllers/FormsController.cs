@@ -1,10 +1,13 @@
 using FormBuilder.Domains.Forms.Commands.AddForm;
 using FormBuilder.Domains.Forms.Commands.DeleteForm;
 using FormBuilder.Domains.Forms.Commands.UpdateForm;
+using FormBuilder.Domains.Forms.Models;
 using FormBuilder.Domains.Forms.Queries.GetFormById;
 using FormBuilder.Domains.Forms.Queries.GetForms;
 using kr.bbon.AspNetCore;
+using kr.bbon.AspNetCore.Models;
 using kr.bbon.AspNetCore.Mvc;
+using kr.bbon.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +31,9 @@ public class FormsController : ApiControllerBase
     /// </summary>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType(typeof(PagedModel<FormModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetForms([FromQuery] GetFormsQuery query)
     {
         var forms = await _mediator.Send(query);
@@ -40,6 +46,10 @@ public class FormsController : ApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(FormModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetFormById([FromRoute] Guid id)
     {
         var query = new GetFormByIdQuery
@@ -57,6 +67,9 @@ public class FormsController : ApiControllerBase
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost]
+    [ProducesResponseType(typeof(FormModel), StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> AddForm([FromBody] AddFormCommand command)
     {
         var form = await _mediator.Send(command);
@@ -70,6 +83,10 @@ public class FormsController : ApiControllerBase
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPut]
+    [ProducesResponseType(typeof(FormModel), StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateForm([FromBody] UpdateFormCommand command)
     {
         var form = await _mediator.Send(command);
@@ -83,6 +100,9 @@ public class FormsController : ApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteForm([FromRoute] Guid id)
     {
         var command = new DeleteFormCommand {Id = id};

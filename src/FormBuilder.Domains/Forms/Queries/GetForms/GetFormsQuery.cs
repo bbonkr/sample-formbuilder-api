@@ -9,5 +9,5 @@ public class GetFormsQuery : IRequest<PagedModel<FormModel>>
     public int Page { get; set; } = 1;
     public int Limit { get; set; } = 10;
     
-    public string Keyword { get; set; } = string.Empty;
+    public string? Keyword { get; set; } = string.Empty;
 }
