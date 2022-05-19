@@ -18,7 +18,7 @@ public class GetFormsQueryHandler : IRequestHandler<GetFormsQuery, PagedModel<Fo
         _logger = logger;
     }
 
-    public async Task<PagedModel<FormModel>> Handle(GetFormsQuery request, CancellationToken cancellationToken)
+    public async Task<PagedModel<FormModel>> Handle(GetFormsQuery request, CancellationToken cancellationToken = default)
     {
         var formPagedModel = await _dbContext.Forms
             .WhereDependsOn(!string.IsNullOrWhiteSpace(request.Keyword),

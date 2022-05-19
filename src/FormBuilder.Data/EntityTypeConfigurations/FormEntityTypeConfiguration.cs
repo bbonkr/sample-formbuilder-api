@@ -12,7 +12,8 @@ public class FormEntityTypeConfiguration:IEntityTypeConfiguration<Form>
         
         builder.Property(x => x.Id)
             .IsRequired()
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .ValueGeneratedOnAdd();
         builder.Property(x => x.Title)
             .IsRequired()
             .HasMaxLength(1000);

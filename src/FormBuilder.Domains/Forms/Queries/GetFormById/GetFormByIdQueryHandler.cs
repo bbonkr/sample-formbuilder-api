@@ -18,7 +18,7 @@ public class GetFormByIdQueryHandler : IRequestHandler<GetFormByIdQuery, FormMod
         _logger = logger;
     }
 
-    public async Task<FormModel> Handle(GetFormByIdQuery request, CancellationToken cancellationToken)
+    public async Task<FormModel> Handle(GetFormByIdQuery request, CancellationToken cancellationToken = default)
     {
         var formModel = await _dbContext.Forms.Where(x => x.Id == request.Id)
             .Select(x => _mapper.Map<FormModel>(x))
