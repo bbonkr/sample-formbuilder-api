@@ -11,7 +11,8 @@ public class ResultEntityTypeConfiguration : IEntityTypeConfiguration<Result>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
             .IsRequired()
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .ValueGeneratedOnAdd();
         builder.Property(x => x.FormId)
             .IsRequired()
             .HasConversion<string>();

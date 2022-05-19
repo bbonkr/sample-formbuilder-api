@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormBuilder.Domains", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormBuilder.Data", "src\FormBuilder.Data\FormBuilder.Data.csproj", "{BBEAA704-2D3A-43AF-8D39-D495DC4538ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormBuilder.Data.SqlServer", "src\FormBuilder.Data.SqlServer\FormBuilder.Data.SqlServer.csproj", "{07BEAD30-B9B4-4F4B-8D76-2ECE10526446}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{BBEAA704-2D3A-43AF-8D39-D495DC4538ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBEAA704-2D3A-43AF-8D39-D495DC4538ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBEAA704-2D3A-43AF-8D39-D495DC4538ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07BEAD30-B9B4-4F4B-8D76-2ECE10526446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07BEAD30-B9B4-4F4B-8D76-2ECE10526446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07BEAD30-B9B4-4F4B-8D76-2ECE10526446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07BEAD30-B9B4-4F4B-8D76-2ECE10526446}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

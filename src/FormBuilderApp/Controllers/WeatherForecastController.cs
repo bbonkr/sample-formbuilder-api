@@ -1,10 +1,14 @@
+using kr.bbon.AspNetCore;
+using kr.bbon.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FormBuilderApp.Controllers;
 
 [ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
+[Route(DefaultValues.RouteTemplate)]
+[Area(DefaultValues.AreaName)]
+[ApiVersion(DefaultValues.ApiVersion)]
+public class WeatherForecastController : ApiControllerBase
 {
     private static readonly string[] Summaries = new[]
     {

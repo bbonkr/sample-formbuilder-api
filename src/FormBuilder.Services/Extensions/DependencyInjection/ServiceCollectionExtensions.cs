@@ -7,7 +7,7 @@ namespace FormBuilder.Services.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAzureBlobStorageService(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+    public static IServiceCollection AddAzureBlobStorageFileService(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
     {
         services.AddOptions<AzureBlobStorageFileServiceOptions>()
             .Configure<IConfiguration>((options, configuration) =>
