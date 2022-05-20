@@ -8,5 +8,5 @@ public interface IFileService
 
     public Task<FileModel> GetAsync(string uri, CancellationToken cancellationToken = default);
 
-    public Task DeleteAsync(string uri, CancellationToken cancellationToken = default);
+    public Task<string> DeleteAsync(string uri, CancellationToken cancellationToken = default);
 }

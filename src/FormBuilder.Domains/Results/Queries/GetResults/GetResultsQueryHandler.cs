@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FormBuilder.Data;
 using FormBuilder.Domains.Results.Models;
 using kr.bbon.Core.Models;
@@ -21,7 +21,8 @@ public class GetResultsQueryHandler : IRequestHandler<GetResultsQuery, PagedMode
     public async Task<PagedModel<ResultModel>> Handle(GetResultsQuery request, CancellationToken cancellationToken = default)
     {
         var resultPagedModel = await _dbContext.Results
-            .Include(x=>x.Form)
+            .Include(x => x.Form)
+            .OrderByDescending(x => x.CreatedAt)
             .Select(x => _mapper.Map<ResultModel>(x))
             .ToPagedModelAsync(request.Page, request.Limit, cancellationToken);
 

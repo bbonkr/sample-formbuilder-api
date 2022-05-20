@@ -1,11 +1,11 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using FormBuilder.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
 namespace FormBuilder.Data.EntityTypeConfigurations;
 
-public class FileEntityTypeConfiguration :IEntityTypeConfiguration<FileMedia>
+public class FileEntityTypeConfiguration : IEntityTypeConfiguration<FileMedia>
 {
     public void Configure(EntityTypeBuilder<FileMedia> builder)
     {
@@ -36,5 +36,7 @@ public class FileEntityTypeConfiguration :IEntityTypeConfiguration<FileMedia>
         builder.Property(x => x.Path)
             .IsRequired(true)
             .HasMaxLength(1000);
+        builder.Property(x => x.CreatedAt)
+            .IsRequired();
     }
 }

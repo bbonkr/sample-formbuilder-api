@@ -9,4 +9,6 @@ public class Form
     public string Content { get; set; }
 
     public virtual IList<Result> Results { get; set; }
+
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 }

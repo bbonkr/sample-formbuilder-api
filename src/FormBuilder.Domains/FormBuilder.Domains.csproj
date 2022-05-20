@@ -18,6 +18,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FormBuilder.Data\FormBuilder.Data.csproj" />
+    <ProjectReference Include="..\FormBuilder.Services\FormBuilder.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Files\Profiles" />
   </ItemGroup>
 
 </Project>
