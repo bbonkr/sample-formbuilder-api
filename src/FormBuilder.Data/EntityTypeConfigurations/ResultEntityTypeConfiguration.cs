@@ -1,4 +1,4 @@
-using FormBuilder.Entities;
+﻿using FormBuilder.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,5 +18,7 @@ public class ResultEntityTypeConfiguration : IEntityTypeConfiguration<Result>
             .HasConversion<string>();
         builder.Property(x => x.Content)
             .IsRequired(true);
+        builder.Property(x => x.CreatedAt)
+            .IsRequired();
     }
 }

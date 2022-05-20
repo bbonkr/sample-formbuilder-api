@@ -1,4 +1,4 @@
-namespace FormBuilder.Entities;
+﻿namespace FormBuilder.Entities;
 
 public class Result
 {
@@ -9,4 +9,6 @@ public class Result
     public string Content { get; set; }
 
     public Form Form { get; set; }
+
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 }

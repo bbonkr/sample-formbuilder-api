@@ -1,4 +1,4 @@
-namespace FormBuilder.Services.FileServices.Models;
+﻿namespace FormBuilder.Services.FileServices.Models;
 
 public class FileModel
 {
@@ -14,5 +14,7 @@ public class FileModel
 
     public string Uri { get; set; }
 
-    public IEnumerable<byte> FileContent { get; set; } = null;
+    public byte[]? FileContent { get; set; } = null;
+
+    public Stream Stream { get; set; } = null;
 }

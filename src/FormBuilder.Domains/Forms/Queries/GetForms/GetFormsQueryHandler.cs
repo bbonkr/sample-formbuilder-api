@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FormBuilder.Data;
 using FormBuilder.Domains.Forms.Models;
 using kr.bbon.Core.Models;
@@ -23,6 +23,7 @@ public class GetFormsQueryHandler : IRequestHandler<GetFormsQuery, PagedModel<Fo
         var formPagedModel = await _dbContext.Forms
             .WhereDependsOn(!string.IsNullOrWhiteSpace(request.Keyword),
                 x => EF.Functions.Like(x.Title, $"%{request.Keyword}%"))
+            .OrderByDescending(x => x.CreatedAt)
             .Select(x => _mapper.Map<FormModel>(x))
             .ToPagedModelAsync(request.Page, request.Limit, cancellationToken);
 
