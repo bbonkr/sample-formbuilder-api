@@ -21,6 +21,9 @@ public class GetFormsQueryHandler : IRequestHandler<GetFormsQuery, PagedModel<Fo
     public async Task<PagedModel<FormModel>> Handle(GetFormsQuery request, CancellationToken cancellationToken = default)
     {
         var formPagedModel = await _dbContext.Forms
+            .Include(x => x.Items.OrderBy(item => item.Ordinal))
+                .ThenInclude(x => x.Options.OrderBy(option => option.Ordinal))
+            .Include(x => x.Results)
             .WhereDependsOn(!string.IsNullOrWhiteSpace(request.Keyword),
                 x => EF.Functions.Like(x.Title, $"%{request.Keyword}%"))
             .OrderByDescending(x => x.CreatedAt)

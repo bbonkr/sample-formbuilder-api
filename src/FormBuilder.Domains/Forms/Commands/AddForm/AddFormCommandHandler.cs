@@ -15,7 +15,7 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
         _mapper = mapper;
         _logger = logger;
     }
-    
+
     public async Task<FormModel> Handle(AddFormCommand request, CancellationToken cancellationToken = default)
     {
         var newForm = new Form
@@ -23,8 +23,20 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
             Title = request.Title,
             Content = request.Content,
         };
-        
+
+
         var added = _dbContext.Forms.Add(newForm);
+
+        if (request.Items.Count > 0)
+        {
+            foreach (var item in request.Items)
+            {
+                var formItem = _mapper.Map<FormItem>(item);
+                formItem.FormId = added.Entity.Id;
+
+                newForm.Items.Add(formItem);
+            }
+        }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

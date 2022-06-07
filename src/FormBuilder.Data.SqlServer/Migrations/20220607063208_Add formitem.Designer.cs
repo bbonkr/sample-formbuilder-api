@@ -4,6 +4,7 @@ using FormBuilder.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FormBuilder.Data.SqlServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220607063208_Add formitem")]
+    partial class Addformitem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,7 +141,7 @@ namespace FormBuilder.Data.SqlServer.Migrations
 
                     b.HasIndex("FormId");
 
-                    b.ToTable("FormItems");
+                    b.ToTable("FormItem");
                 });
 
             modelBuilder.Entity("FormBuilder.Entities.FormItemOption", b =>
@@ -171,7 +173,7 @@ namespace FormBuilder.Data.SqlServer.Migrations
 
                     b.HasIndex("FormItemId");
 
-                    b.ToTable("FormItemOptions");
+                    b.ToTable("FormItemOption");
                 });
 
             modelBuilder.Entity("FormBuilder.Entities.Result", b =>

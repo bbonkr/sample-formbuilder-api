@@ -2,6 +2,7 @@ using System.Net;
 using AutoMapper;
 using FormBuilder.Data;
 using FormBuilder.Domains.Forms.Models;
+using FormBuilder.Entities;
 using kr.bbon.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
     public async Task<FormModel> Handle(UpdateFormCommand request, CancellationToken cancellationToken = default)
     {
         var form = await _dbContext.Forms
+            .Include(x => x.Items)
+                .ThenInclude(x => x.Options)
             .Where(x => x.Id == request.Id)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -32,9 +35,27 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
         form.Title = request.Title;
         form.Content = request.Content;
 
+        if (request.Items.Count > 0)
+        {
+            _dbContext.FormItems.RemoveRange(form.Items);
+
+            foreach (var item in request.Items)
+            {
+                var formItem = _mapper.Map<FormItem>(item);
+                _dbContext.FormItems.Add(formItem);
+            }
+        }
+
         var updated = _dbContext.Update(form);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        var model = _mapper.Map<FormModel>(form);
+
+        var reloadedForm = await _dbContext.Forms
+            .Include(x => x.Items)
+                .ThenInclude(x => x.Options)
+            .Where(x => x.Id == request.Id)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        var model = _mapper.Map<FormModel>(reloadedForm);
 
         return model;
     }

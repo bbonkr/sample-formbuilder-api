@@ -1,5 +1,6 @@
 using FormBuilder.Domains.Forms.Commands.AddForm;
 using FormBuilder.Domains.Forms.Commands.DeleteForm;
+using FormBuilder.Domains.Forms.Commands.Migrations;
 using FormBuilder.Domains.Forms.Commands.UpdateForm;
 using FormBuilder.Domains.Forms.Models;
 using FormBuilder.Domains.Forms.Queries.GetFormById;
@@ -100,12 +101,28 @@ public class FormsController : ApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteForm([FromRoute] Guid id)
     {
-        var command = new DeleteFormCommand {Id = id};
+        var command = new DeleteFormCommand { Id = id };
+        await _mediator.Send(command);
+
+        return Accepted();
+    }
+
+    /// <summary>
+    /// (Temporary) Migrate data
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("migrate")]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Migrate()
+    {
+        var command = new MigrationCommand();
         await _mediator.Send(command);
 
         return Accepted();

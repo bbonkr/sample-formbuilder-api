@@ -41,16 +41,6 @@ public class FilesController : ApiControllerBase
     {
         var file = await _mediator.Send(query);
 
-        //if (file.Content == null)
-        //{
-        //    throw new ApiException(HttpStatusCode.NotFound);
-        //}
-
-
-        //return File(file.Content, file.ContentType);
-        //var memoryStream = new MemoryStream(file.Content);
-        //memoryStream.Position = 0;
-
         if (file.Content == null && file.Stream == null)
         {
             throw new ApiException(HttpStatusCode.NotFound);
@@ -74,6 +64,7 @@ public class FilesController : ApiControllerBase
     public async Task<IActionResult> Upload([FromForm] IList<IFormFile> files)
     {
         var containerName = "forms";
+
         var result = new List<UploadFileMediaModel>();
         if (files == null)
         {
