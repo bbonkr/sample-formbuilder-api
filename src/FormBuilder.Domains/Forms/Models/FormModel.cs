@@ -7,4 +7,8 @@ public class FormModel
     public string Title { get; set; }
 
     public string Content { get; set; }
+
+    public long ResultsCount { get; set; }
+
+    public IList<FormItemModel> Items { get; set; } = new List<FormItemModel>();
 }

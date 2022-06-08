@@ -17,11 +17,18 @@ public class FormEntityTypeConfiguration : IEntityTypeConfiguration<Form>
         builder.Property(x => x.Title)
             .IsRequired()
             .HasMaxLength(1000);
+        builder.Property(x => x.CreatedAt)
+            .IsRequired();
 
         builder.HasMany(x => x.Results)
             .WithOne(x => x.Form)
-            .HasForeignKey(x => x.FormId);
-        builder.Property(x => x.CreatedAt)
-            .IsRequired();
+            .HasForeignKey(x => x.FormId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(x => x.Items)
+            .WithOne(x => x.Form)
+            .HasForeignKey(x => x.FormId)
+            .OnDelete(DeleteBehavior.Cascade);
+
     }
 }

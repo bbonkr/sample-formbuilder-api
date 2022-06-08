@@ -15,4 +15,10 @@
     <ProjectReference Include="..\FormBuilder.Entities\FormBuilder.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Conversions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Conversions\" />
+  </ItemGroup>
 </Project>

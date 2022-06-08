@@ -20,9 +20,12 @@ public class GetFormByIdQueryHandler : IRequestHandler<GetFormByIdQuery, FormMod
 
     public async Task<FormModel> Handle(GetFormByIdQuery request, CancellationToken cancellationToken = default)
     {
-        var formModel = await _dbContext.Forms.Where(x => x.Id == request.Id)
+        var formModel = await _dbContext.Forms
+            .Include(x => x.Items.OrderBy(item => item.Ordinal))
+                .ThenInclude(x => x.Options.OrderBy(opt => opt.Ordinal))
+            .Where(x => x.Id == request.Id)
             .Select(x => _mapper.Map<FormModel>(x))
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (formModel == null)
         {
