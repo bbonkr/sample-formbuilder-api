@@ -33,7 +33,8 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
         }
 
         form.Title = request.Title;
-        form.Content = request.Content;
+        // TODO remove
+        form.Content = string.Empty; // request.Content;
 
         if (request.Items.Count > 0)
         {
