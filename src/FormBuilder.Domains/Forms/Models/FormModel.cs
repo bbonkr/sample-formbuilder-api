@@ -6,6 +6,7 @@ public class FormModel
 
     public string Title { get; set; }
 
+    [Obsolete]
     public string Content { get; set; }
 
     public long ResultsCount { get; set; }

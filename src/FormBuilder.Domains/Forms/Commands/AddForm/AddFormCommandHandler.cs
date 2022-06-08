@@ -21,7 +21,7 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
         var newForm = new Form
         {
             Title = request.Title,
-            Content = request.Content,
+            //Content = request.Content,
         };
 
 
