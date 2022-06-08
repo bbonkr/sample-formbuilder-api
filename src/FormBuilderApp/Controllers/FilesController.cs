@@ -63,6 +63,7 @@ public class FilesController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Upload([FromForm] IList<IFormFile> files)
     {
+        // TODO Determine where store file from form file.
         var containerName = "forms";
 
         var result = new List<UploadFileMediaModel>();

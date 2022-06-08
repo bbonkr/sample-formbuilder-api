@@ -117,16 +117,16 @@ public class FormsController : ApiControllerBase
     /// (Temporary) Migrate data
     /// </summary>
     /// <returns></returns>
-    [HttpPost("migrate")]
-    [ProducesResponseType(StatusCodes.Status202Accepted)]
-    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Migrate()
-    {
-        var command = new MigrationCommand();
-        await _mediator.Send(command);
+    //[HttpPost("migrate")]
+    //[ProducesResponseType(StatusCodes.Status202Accepted)]
+    //[ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
+    //public async Task<IActionResult> Migrate()
+    //{
+    //    var command = new MigrationCommand();
+    //    await _mediator.Send(command);
 
-        return Accepted();
-    }
+    //    return Accepted();
+    //}
 
     private readonly IMediator _mediator;
     private readonly ILogger _logger;
