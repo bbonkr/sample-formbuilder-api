@@ -16,11 +16,12 @@ public class ValidatorInterceptor : IValidatorInterceptor
         {
             var statusCode = HttpStatusCode.BadRequest;
 
-            var error = new ErrorModel("Request payload is invalid",
+            var error = new ErrorModel(
+                Message:"Request payload is invalid",
                 Code: statusCode.ToString(),
                 InnerErrors: result.Errors.Select(x => new ErrorModel
                 (
-                    x.ErrorMessage,
+                    Message: x.ErrorMessage,
                     Code: x.ErrorCode,
                     Reference: x.PropertyName
                 )).ToList());

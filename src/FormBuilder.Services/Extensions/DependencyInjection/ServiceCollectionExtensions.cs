@@ -1,4 +1,5 @@
 using FormBuilder.Services.FileServices;
+using FormBuilder.Services.Translation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -28,6 +29,16 @@ public static class ServiceCollectionExtensions
                 break;
         }
 
+        return services;
+    }
+
+    public static IServiceCollection AddTranslationService(this IServiceCollection services, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+    {
+        var serviceDescriptor =
+            new ServiceDescriptor(typeof(ITranslationService), typeof(TranslationService), serviceLifetime); 
+        
+        services.TryAdd(serviceDescriptor);
+        
         return services;
     }
 }

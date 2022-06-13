@@ -36,6 +36,7 @@ builder.Services
     .ConfigureDefaultJsonOptions();
 
 builder.Services.AddAzureBlobStorageFileService();
+builder.Services.AddTranslationService();
 builder.Services.AddDomainServices();
 builder.Services.AddValidatorInterceptor();
 
