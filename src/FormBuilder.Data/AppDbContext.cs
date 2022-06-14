@@ -20,6 +20,8 @@ public class AppDbContext : DbContext
 
     public DbSet<FileMedia> Files { get; set; }
 
+    public DbSet<Language> Languages { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

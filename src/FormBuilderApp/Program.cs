@@ -1,5 +1,7 @@
 
 using FormBuilder.Data;
+using FormBuilder.Data.Extensions.DependencyInjection;
+using FormBuilder.Data.Seeders;
 using FormBuilder.Domains.Extensions.DependencyInjection;
 using FormBuilder.Services.Extensions.DependencyInjection;
 using FormBuilderApp.Extensions.DependencyInjection;
@@ -27,6 +29,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         sqlServerOptions.MigrationsAssembly("FormBuilder.Data.SqlServer");
     });
 });
+
+builder.Services.AddLanguageSeeder();
 
 builder.Services
     .AddControllers(options =>
@@ -69,6 +73,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 app.UseDatabaseMigration<AppDbContext>();
+app.UseDataSeeder<LanguageSeeder>();
+
 app.UseSwaggerUIWithApiVersioning();
 // if (app.Environment.IsDevelopment())
 // {
