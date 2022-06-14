@@ -31,7 +31,36 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
             foreach (var item in request.Items)
             {
                 var formItem = _mapper.Map<FormItem>(item);
-                // formItem.FormId = added.Entity.Id;
+
+                if (item.Locales.Any())
+                {
+                    foreach (var itemLocaled in item.Locales)
+                    {
+                        var formItemLocaled = _mapper.Map<FormItemLocaled>(itemLocaled);
+
+                        formItem.Locales.Add(formItemLocaled);
+                    }
+                }
+
+                if (item.Options.Any())
+                {
+                    foreach (var itemOption in item.Options)
+                    {
+                        var formItemOption = _mapper.Map<FormItemOption>(itemOption);
+
+                        if (itemOption.Locales.Any())
+                        {
+                            foreach (var itemOptionLocaled in itemOption.Locales)
+                            {
+                                var formItemOptionLocaled = _mapper.Map<FormItemOptionLocaled>(itemOptionLocaled);
+
+                                formItemOption.Locales.Add(formItemOptionLocaled);
+                            }
+                        }
+                        
+                        formItem.Options.Add(formItemOption);
+                    }
+                }
 
                 newForm.Items.Add(formItem);
             }
@@ -42,7 +71,6 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
             foreach (var localed in request.Locales)
             {
                 var formLocaled = _mapper.Map<FormLocaled>(localed);
-                // formLocaled.FormId = added.Entity.Id;
 
                 newForm.Locales.Add(formLocaled);
             }
