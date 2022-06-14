@@ -1,3 +1,4 @@
+using FormBuilder.Data.Seeders;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormBuilderApp.Extensions.DependencyInjection;
@@ -13,5 +14,17 @@ public static class ApplicationBuilderExtensions
         }
 
         return builder;
-    }    
+    }
+
+    public static IApplicationBuilder UseDataSeeder<TDataSeeder>(this IApplicationBuilder builder)
+        where TDataSeeder : DataSeederBase
+    {
+        using (var scope = builder.ApplicationServices.CreateScope())
+        {
+            var seeder = scope.ServiceProvider.GetRequiredService<TDataSeeder>();
+            seeder.Seed();
+        }
+
+        return builder;
+    }
 }
