@@ -30,7 +30,7 @@ public class FilesController : ApiControllerBase
     /// <summary>
     /// download file
     /// </summary>
-    /// <param name="uri"></param>
+    /// <param name="query"></param>
     /// <returns></returns>
     [HttpPost("download")]
     [ProducesResponseType(typeof(FileContentResult), StatusCodes.Status200OK)]
@@ -54,7 +54,7 @@ public class FilesController : ApiControllerBase
     /// <summary>
     /// Uplaod file
     /// </summary>
-    /// <param name="requestModel"></param>
+    /// <param name="files"></param>
     /// <returns></returns>
     /// <exception cref="ApiException"></exception>
     [HttpPost]

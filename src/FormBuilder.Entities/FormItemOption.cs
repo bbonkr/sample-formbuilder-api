@@ -13,5 +13,6 @@ public class FormItemOption
     public string Text { get; set; } = string.Empty;
 
     public int Ordinal { get; set; } = 1;
-}
 
+    public IList<FormItemOptionLocaled> Locales { get; set; }
+}
