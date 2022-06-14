@@ -8,6 +8,22 @@ public class FormProfile : Profile
 {
     public FormProfile()
     {
+        CreateMap<FormLocaled, FormLocaledModel>()
+            .ForMember(dest => dest.LanguageCode,
+                opt => opt.MapFrom(src => src.Language != null ? src.Language.Code : string.Empty))
+            ;
+            CreateMap<FormItemLocaled, FormItemLocaledModel>()
+                .ForMember(dest => dest.LanguageCode,
+                    opt => opt.MapFrom(src => src.Language != null ? src.Language.Code : string.Empty))
+                ;
+        CreateMap<FormItemOptionLocaled, FormItemOptionLocaledModel>()
+            .ForMember(dest => dest.LanguageCode,
+                opt => opt.MapFrom(src => src.Language != null ? src.Language.Code : string.Empty))
+        ;
+        CreateMap<FormLocaledModel, FormLocaled>();
+        CreateMap<FormItemLocaledModel, FormItemLocaled>();
+        CreateMap<FormItemOptionLocaledModel, FormItemOptionLocaled>();
+        
         CreateMap<Form, FormModel>()
             .ForMember(dest => dest.ResultsCount, opt => opt.MapFrom(src => src.Results == null ? 0 : src.Results.Count));
         CreateMap<FormModel, Form>();

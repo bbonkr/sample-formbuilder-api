@@ -6,5 +6,10 @@ namespace FormBuilder.Domains.Forms.Queries.GetFormById;
 
 public class GetFormByIdQuery : IRequest<FormModel>
 {
-    public Guid Id { get; set; }
+    public GetFormByIdQuery(Guid id)
+    {
+        Id = id;
+    }
+    
+    public Guid Id { get;  }
 }

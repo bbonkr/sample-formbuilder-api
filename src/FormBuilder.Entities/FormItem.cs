@@ -24,5 +24,5 @@ public class FormItem
 
     public virtual IList<FormItemOption> Options { get; set; } = new List<FormItemOption>();
 
-    public virtual IList<FormItemLocaled> Locales { get; set; }
+    public virtual IList<FormItemLocaled> Locales { get; set; } = new List<FormItemLocaled>();
 }

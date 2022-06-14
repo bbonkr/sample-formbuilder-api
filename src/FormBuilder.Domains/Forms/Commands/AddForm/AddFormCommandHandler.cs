@@ -1,6 +1,7 @@
 using AutoMapper;
 using FormBuilder.Data;
 using FormBuilder.Domains.Forms.Models;
+using FormBuilder.Domains.Forms.Queries.GetFormById;
 using FormBuilder.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -9,9 +10,10 @@ namespace FormBuilder.Domains.Forms.Commands.AddForm;
 
 public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
 {
-    public AddFormCommandHandler(AppDbContext dbContext, IMapper mapper, ILogger<AddFormCommandHandler> logger)
+    public AddFormCommandHandler(AppDbContext dbContext, IMediator mediator, IMapper mapper, ILogger<AddFormCommandHandler> logger)
     {
         _dbContext = dbContext;
+        _mediator = mediator;
         _mapper = mapper;
         _logger = logger;
     }
@@ -21,31 +23,41 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
         var newForm = new Form
         {
             Title = request.Title,
-            //Content = request.Content,
+            Content = string.Empty,
         };
-
-
-        var added = _dbContext.Forms.Add(newForm);
-
-        if (request.Items.Count > 0)
+        
+        if (request.Items?.Any() ?? false)
         {
             foreach (var item in request.Items)
             {
                 var formItem = _mapper.Map<FormItem>(item);
-                formItem.FormId = added.Entity.Id;
+                // formItem.FormId = added.Entity.Id;
 
                 newForm.Items.Add(formItem);
             }
         }
 
+        if (request.Locales?.Any() ?? false)
+        {
+            foreach (var localed in request.Locales)
+            {
+                var formLocaled = _mapper.Map<FormLocaled>(localed);
+                // formLocaled.FormId = added.Entity.Id;
+
+                newForm.Locales.Add(formLocaled);
+            }
+        }
+
+        var added = _dbContext.Forms.Add(newForm);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        var model = _mapper.Map<FormModel>(added.Entity);
+        var adeddFormModel = await _mediator.Send(new GetFormByIdQuery(added.Entity.Id), cancellationToken);
 
-        return model;
+        return adeddFormModel;
     }
 
     private readonly AppDbContext _dbContext;
+    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
 }

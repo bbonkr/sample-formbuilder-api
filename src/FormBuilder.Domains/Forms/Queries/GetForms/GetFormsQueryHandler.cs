@@ -22,12 +22,20 @@ public class GetFormsQueryHandler : IRequestHandler<GetFormsQuery, PagedModel<Fo
     {
         var formPagedModel = await _dbContext.Forms
             .Include(x => x.Items.OrderBy(item => item.Ordinal))
+                .ThenInclude(x=>x.Locales)
+                    // .ThenInclude(x=>x.Language)
+            .Include(x => x.Items.OrderBy(item => item.Ordinal))
                 .ThenInclude(x => x.Options.OrderBy(option => option.Ordinal))
+                    .ThenInclude(x=>x.Locales)
+                        // .ThenInclude(x=>x.Language)
             .Include(x => x.Results)
+            .Include(x=>x.Locales)
+                // .ThenInclude(x=>x.Language)
             .WhereDependsOn(!string.IsNullOrWhiteSpace(request.Keyword),
                 x => EF.Functions.Like(x.Title, $"%{request.Keyword}%"))
             .OrderByDescending(x => x.CreatedAt)
             .Select(x => _mapper.Map<FormModel>(x))
+            .AsNoTracking()
             .ToPagedModelAsync(request.Page, request.Limit, cancellationToken);
 
         return formPagedModel;

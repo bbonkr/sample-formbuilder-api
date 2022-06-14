@@ -27,5 +27,8 @@ public class FormItemOptionLocaledEntityTypeConfiguration : IEntityTypeConfigura
         builder.HasOne(x => x.Language)
             .WithMany()
             .HasForeignKey(x => x.LanguageId);
+        
+        builder.Navigation(x => x.Language)
+            .AutoInclude();
     }
 }

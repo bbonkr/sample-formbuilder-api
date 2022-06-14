@@ -14,5 +14,5 @@ public class FormItemOption
 
     public int Ordinal { get; set; } = 1;
 
-    public IList<FormItemOptionLocaled> Locales { get; set; }
+    public IList<FormItemOptionLocaled> Locales { get; set; } = new List<FormItemOptionLocaled>();
 }
