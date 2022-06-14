@@ -15,4 +15,3 @@ public class Form
 
     public virtual IList<Result> Results { get; set; } = new List<Result>();
 }
-
