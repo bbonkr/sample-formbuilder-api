@@ -2,7 +2,7 @@
 
 public class FormItemOption
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid FormItemId { get; set; }
 
@@ -13,5 +13,6 @@ public class FormItemOption
     public string Text { get; set; } = string.Empty;
 
     public int Ordinal { get; set; } = 1;
-}
 
+    public IList<FormItemOptionLocaled> Locales { get; set; } = new List<FormItemOptionLocaled>();
+}

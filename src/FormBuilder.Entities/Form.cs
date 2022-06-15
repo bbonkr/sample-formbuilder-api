@@ -2,7 +2,7 @@
 
 public class Form
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public string Title { get; set; }
 
@@ -14,4 +14,6 @@ public class Form
     public virtual IList<FormItem> Items { get; set; } = new List<FormItem>();
 
     public virtual IList<Result> Results { get; set; } = new List<Result>();
+
+    public virtual IList<FormLocaled> Locales { get; set; } = new List<FormLocaled>();
 }

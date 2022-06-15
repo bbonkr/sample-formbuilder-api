@@ -13,6 +13,9 @@ using Microsoft.EntityFrameworkCore;
 
 var defaultVersion = new ApiVersion(1, 0);
 var corsOptions = new CorsOptions();
+
+var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -26,6 +29,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(connectionString, sqlServerOptions =>
     {
+        if (isDevelopment)
+        {
+            options.EnableSensitiveDataLogging();
+        }
+
         sqlServerOptions.MigrationsAssembly("FormBuilder.Data.SqlServer");
     });
 });

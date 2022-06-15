@@ -20,13 +20,25 @@ public class GetFormByIdQueryHandler : IRequestHandler<GetFormByIdQuery, FormMod
 
     public async Task<FormModel> Handle(GetFormByIdQuery request, CancellationToken cancellationToken = default)
     {
-        var formModel = await _dbContext.Forms
+        var result = await _dbContext.Forms
+            .Include(x=>x.Locales)
+                // .ThenInclude(x=>x.Language)
             .Include(x => x.Items.OrderBy(item => item.Ordinal))
-                .ThenInclude(x => x.Options.OrderBy(opt => opt.Ordinal))
+                .ThenInclude(x=>x.Locales)
+                    // .ThenInclude(x=>x.Language)
+            .Include(x => x.Items.OrderBy(item => item.Ordinal))
+                .ThenInclude(x => x.Options.OrderBy(option => option.Ordinal))
+                    .ThenInclude(x=>x.Locales)
+                        // .ThenInclude(x=>x.Language)
+            .Include(x => x.Results)
             .Where(x => x.Id == request.Id)
-            .Select(x => _mapper.Map<FormModel>(x))
+            // .Select(x => _mapper.Map<FormModel>(x))
+            .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
 
+
+        var formModel = _mapper.Map<FormModel>(result);
+        
         if (formModel == null)
         {
             throw new ApiException(HttpStatusCode.NotFound);

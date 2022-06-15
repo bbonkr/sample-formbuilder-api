@@ -29,6 +29,5 @@ public class FormEntityTypeConfiguration : IEntityTypeConfiguration<Form>
             .WithOne(x => x.Form)
             .HasForeignKey(x => x.FormId)
             .OnDelete(DeleteBehavior.Cascade);
-
     }
 }

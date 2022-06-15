@@ -53,11 +53,7 @@ public class FormsController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetFormById([FromRoute] Guid id)
     {
-        var query = new GetFormByIdQuery
-        {
-            Id = id,
-        };
-        var form = await _mediator.Send(query);
+        var form = await _mediator.Send(new GetFormByIdQuery(id));
 
         return Ok(form);
     }
