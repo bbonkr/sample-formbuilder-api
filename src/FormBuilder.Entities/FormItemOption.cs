@@ -2,7 +2,7 @@
 
 public class FormItemOption
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid FormItemId { get; set; }
 

@@ -1,8 +1,10 @@
+using System.Net;
 using AutoMapper;
 using FormBuilder.Data;
 using FormBuilder.Domains.Forms.Models;
 using FormBuilder.Domains.Forms.Queries.GetFormById;
 using FormBuilder.Entities;
+using kr.bbon.Core;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -20,6 +22,14 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
 
     public async Task<FormModel> Handle(AddFormCommand request, CancellationToken cancellationToken = default)
     {
+        var defaultLanguage = _dbContext.Languages
+            .OrderBy(x => x.Ordinal).FirstOrDefault();
+
+        if (defaultLanguage == null)
+        {
+            throw new ApiException(HttpStatusCode.NotFound, "Could not find default language information");
+        }
+        
         var newForm = new Form
         {
             Title = request.Title,
@@ -28,52 +38,74 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
         
         if (request.Items?.Any() ?? false)
         {
-            foreach (var item in request.Items)
+            var formItemEntities = request.Items
+                .Select(x => _mapper.Map<FormItem>(x))
+                .ToList();
+            
+            foreach (var formItemEntity in formItemEntities)
             {
-                var formItem = _mapper.Map<FormItem>(item);
-
-                if (item.Locales.Any())
+                var hasDefaultFormItemLocaled = formItemEntity.Locales
+                    .Any(x => x.LanguageId == defaultLanguage.Id);
+                    
+                if (!hasDefaultFormItemLocaled)
                 {
-                    foreach (var itemLocaled in item.Locales)
+                    var defaultFormItemLocaled = new FormItemLocaled
                     {
-                        var formItemLocaled = _mapper.Map<FormItemLocaled>(itemLocaled);
-
-                        formItem.Locales.Add(formItemLocaled);
-                    }
+                        FormItemId = formItemEntity.Id,
+                        LanguageId = defaultLanguage.Id,
+                        Label = formItemEntity.Label,
+                        Description = formItemEntity.Description,
+                        Placeholder = formItemEntity.Placeholder,
+                    };
+                    formItemEntity.Locales.Add(defaultFormItemLocaled);
                 }
-
-                if (item.Options.Any())
+                
+                if (formItemEntity.Options.Any())
                 {
-                    foreach (var itemOption in item.Options)
+                    foreach (var formItemOption in formItemEntity.Options)
                     {
-                        var formItemOption = _mapper.Map<FormItemOption>(itemOption);
+                        var hasDefaultLocaled = formItemOption.Locales.Any(x => x.LanguageId == defaultLanguage.Id);
 
-                        if (itemOption.Locales.Any())
+                        if (!hasDefaultLocaled)
                         {
-                            foreach (var itemOptionLocaled in itemOption.Locales)
+                            var defaultItemOptionLocaled = new FormItemOptionLocaled
                             {
-                                var formItemOptionLocaled = _mapper.Map<FormItemOptionLocaled>(itemOptionLocaled);
+                                FormItemOptionId = formItemOption.Id,
+                                LanguageId = defaultLanguage.Id,
+                                Text = formItemOption.Text,
+                            };
 
-                                formItemOption.Locales.Add(formItemOptionLocaled);
-                            }
+                            formItemOption.Locales.Add(defaultItemOptionLocaled);
                         }
-                        
-                        formItem.Options.Add(formItemOption);
                     }
                 }
 
-                newForm.Items.Add(formItem);
+                newForm.Items.Add(formItemEntity);
             }
         }
 
-        if (request.Locales?.Any() ?? false)
-        {
-            foreach (var localed in request.Locales)
-            {
-                var formLocaled = _mapper.Map<FormLocaled>(localed);
+        var formLocaledEntities = request.Locales
+            .Select(x => _mapper.Map<FormLocaled>(x))
+            .ToList();
 
-                newForm.Locales.Add(formLocaled);
-            }
+        var hasDefaultLocale = request.Locales
+            .Any(x => x.LanguageCode == defaultLanguage.Code);
+
+        if (!hasDefaultLocale)
+        {
+            var defaultLocaledItem = new FormLocaled
+            {
+                FormId = newForm.Id,
+                LanguageId = defaultLanguage.Id,
+                Title = request.Title,
+            };
+
+            formLocaledEntities.Add(defaultLocaledItem);
+        }
+
+        foreach (var formLocaledEntity in formLocaledEntities)
+        {
+            newForm.Locales.Add(formLocaledEntity);
         }
 
         var added = _dbContext.Forms.Add(newForm);

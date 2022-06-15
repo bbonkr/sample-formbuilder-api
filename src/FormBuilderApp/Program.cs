@@ -26,6 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(connectionString, sqlServerOptions =>
     {
+        options.EnableSensitiveDataLogging();
         sqlServerOptions.MigrationsAssembly("FormBuilder.Data.SqlServer");
     });
 });

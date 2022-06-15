@@ -30,6 +30,7 @@ public class FormItemLocaledEntityTypeConfiguration : IEntityTypeConfiguration<F
             .WithMany(x => x.Locales)
             .HasForeignKey(x => x.FormItemId)
             .OnDelete(DeleteBehavior.Cascade);
+        
         builder.HasOne(x => x.Language)
             .WithMany()
             .HasForeignKey(x => x.LanguageId);
