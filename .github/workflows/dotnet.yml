@@ -6,6 +6,8 @@ on:
       - main # Default release branch
     tags:
       - "!*"
+    paths-ignore: 
+      - '**/*.md'
 
 jobs:
   build:
