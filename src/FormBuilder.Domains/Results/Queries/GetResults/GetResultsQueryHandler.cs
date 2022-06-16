@@ -23,6 +23,7 @@ public class GetResultsQueryHandler : IRequestHandler<GetResultsQuery, PagedMode
         var resultPagedModel = await _dbContext.Results
             .Include(x => x.Form)
             .OrderByDescending(x => x.CreatedAt)
+            .WhereDependsOn(request.FormId.HasValue, x => x.FormId == request.FormId)
             .Select(x => _mapper.Map<ResultModel>(x))
             .ToPagedModelAsync(request.Page, request.Limit, cancellationToken);
 
