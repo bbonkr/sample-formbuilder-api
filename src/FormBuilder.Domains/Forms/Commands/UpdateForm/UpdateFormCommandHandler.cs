@@ -23,6 +23,14 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
 
     public async Task<FormModel> Handle(UpdateFormCommand request, CancellationToken cancellationToken = default)
     {
+        var hasRespondings = _dbContext.Results
+            .Any(x => x.FormId == request.Id);
+
+        if (hasRespondings)
+        {
+            throw new ApiException(HttpStatusCode.NotAcceptable, "The form Could not modify. This form has result data.");
+        }
+
         var defaultLanguage = _dbContext.Languages
             .OrderBy(x => x.Ordinal).FirstOrDefault();
 
@@ -30,14 +38,14 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
         {
             throw new ApiException(HttpStatusCode.NotFound, "Could not find default language information");
         }
-        
+
         var form = await _dbContext.Forms
-            .Include(x=>x.Locales)
+            .Include(x => x.Locales)
             .Include(x => x.Items)
                 .ThenInclude(x => x.Options)
-                    .ThenInclude(x=>x.Locales)
-            .Include(x=>x.Items)
-                .ThenInclude(x=>x.Locales)
+                    .ThenInclude(x => x.Locales)
+            .Include(x => x.Items)
+                .ThenInclude(x => x.Locales)
             .Where(x => x.Id == request.Id)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -59,7 +67,7 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
             //     var formItem = _mapper.Map<FormItem>(item);
             //     _dbContext.FormItems.Add(formItem);
             // }
-            
+
             form.Items.Clear();
         }
 
@@ -68,17 +76,17 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
             form.Locales.Clear();
         }
 
-       if (request.Items?.Any() ?? false)
+        if (request.Items?.Any() ?? false)
         {
             var formItemEntities = request.Items
                 .Select(x => _mapper.Map<FormItem>(x))
                 .ToList();
-            
+
             foreach (var formItemEntity in formItemEntities)
             {
                 var hasDefaultFormItemLocaled = formItemEntity.Locales
                     .Any(x => x.LanguageId == defaultLanguage.Id);
-                    
+
                 if (!hasDefaultFormItemLocaled)
                 {
                     var defaultFormItemLocaled = new FormItemLocaled
@@ -91,7 +99,7 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
                     };
                     formItemEntity.Locales.Add(defaultFormItemLocaled);
                 }
-                
+
                 if (formItemEntity.Options.Any())
                 {
                     foreach (var formItemOption in formItemEntity.Options)
