@@ -16,9 +16,17 @@ public class DeleteFormCommandHandler : IRequestHandler<DeleteFormCommand, Unit>
         _mapper = mapper;
         _logger = logger;
     }
-    
+
     public async Task<Unit> Handle(DeleteFormCommand request, CancellationToken cancellationToken = default)
     {
+        var hasRespondings = _dbContext.Results
+            .Any(x => x.FormId == request.Id);
+
+        if (hasRespondings)
+        {
+            throw new ApiException(HttpStatusCode.NotAcceptable, "The form Could not delete. This form has result data.");
+        }
+
         var form = await _dbContext.Forms
             .Where(x => x.Id == request.Id)
             .FirstOrDefaultAsync(cancellationToken);
@@ -30,10 +38,10 @@ public class DeleteFormCommandHandler : IRequestHandler<DeleteFormCommand, Unit>
 
         _dbContext.Remove(form);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        
+
         return Unit.Value;
     }
-    
+
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
