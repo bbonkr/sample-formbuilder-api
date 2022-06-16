@@ -4,8 +4,9 @@ using MediatR;
 
 namespace FormBuilder.Domains.Results.Queries.GetResults;
 
-public class GetResultsQuery:IRequest<PagedModel<ResultModel>>
+public class GetResultsQuery : IRequest<PagedModel<ResultModel>>
 {
+    public Guid? FormId { get; set; }
     public int Page { get; set; } = 1;
     public int Limit { get; set; } = 10;
 }
