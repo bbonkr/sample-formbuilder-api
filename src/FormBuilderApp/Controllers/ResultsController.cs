@@ -52,10 +52,8 @@ public class ResultsController : ApiControllerBase
     [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetResultById([FromRoute] Guid id)
     {
-        var query = new GetResultByIdQuery
-        {
-            Id = id,
-        };
+        var query = new GetResultByIdQuery(id);
+
         var result = await _mediator.Send(query);
 
         return Ok(result);
@@ -76,7 +74,7 @@ public class ResultsController : ApiControllerBase
 
         return Accepted(result);
     }
-    
+
     private readonly IMediator _mediator;
-    private readonly ILogger _logger;   
+    private readonly ILogger _logger;
 }
