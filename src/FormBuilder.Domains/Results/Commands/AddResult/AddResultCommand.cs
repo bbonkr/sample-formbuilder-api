@@ -4,11 +4,13 @@ using MediatR;
 
 namespace FormBuilder.Domains.Results.Commands.AddResult;
 
-public class AddResultCommand :IRequest<ResultModel>
+public class AddResultCommand : IRequest<ResultModel>
 {
     public Guid FormId { get; set; }
-    
-    public string Content { get; set; } 
+
+    public string Content { get; set; }
+
+    public IEnumerable<ResultItemModel> Items { get; set; } = Enumerable.Empty<ResultItemModel>();
 }
 
 public class AddResultCommandValidator : AbstractValidator<AddResultCommand>
@@ -22,5 +24,6 @@ public class AddResultCommandValidator : AbstractValidator<AddResultCommand>
             .NotNull()
             .NotEmpty()
             .WithMessage(payload => $"Content is required");
+        RuleFor(x => x.Items).NotEmpty().WithMessage(payload => $"Respond items are required");
     }
 }

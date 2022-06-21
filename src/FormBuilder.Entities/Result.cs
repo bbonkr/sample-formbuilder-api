@@ -11,4 +11,6 @@ public class Result
     public Form Form { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+
+    public virtual IList<ResultItem> Items { get; set; } = new List<ResultItem>();
 }

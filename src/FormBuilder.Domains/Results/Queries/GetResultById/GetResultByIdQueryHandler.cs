@@ -17,11 +17,13 @@ public class GetResultByIdQueryHandler : IRequestHandler<GetResultByIdQuery, Res
         _mapper = mapper;
         _logger = logger;
     }
-    
+
     public async Task<ResultModel> Handle(GetResultByIdQuery request, CancellationToken cancellationToken = default)
     {
         var resultModel = await _dbContext.Results
-            .Include(x=>x.Form)
+            .Include(x => x.Form)
+            .Include(x => x.Items)
+                .ThenInclude(x => x.Values)
             .Where(x => x.Id == request.Id)
             .Select(x => _mapper.Map<ResultModel>(x))
             .FirstOrDefaultAsync();
@@ -33,7 +35,7 @@ public class GetResultByIdQueryHandler : IRequestHandler<GetResultByIdQuery, Res
 
         return resultModel;
     }
-    
+
     private readonly AppDbContext _dbContext;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;

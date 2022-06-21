@@ -4,21 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FormBuilder.Data.EntityTypeConfigurations;
 
-public class ResultEntityTypeConfiguration : IEntityTypeConfiguration<Result>
+public class ResultItemValueEntityTypeConfiguration : IEntityTypeConfiguration<ResultItemValue>
 {
-    public void Configure(EntityTypeBuilder<Result> builder)
+    public void Configure(EntityTypeBuilder<ResultItemValue> builder)
     {
         builder.HasKey(x => x.Id);
+
         builder.Property(x => x.Id)
             .IsRequired()
-            .HasConversion<string>()
-            .ValueGeneratedOnAdd();
-        builder.Property(x => x.FormId)
+            .HasConversion<string>();
+        builder.Property(x => x.ResultItemId)
             .IsRequired()
             .HasConversion<string>();
-        builder.Property(x => x.Content)
-            .IsRequired(true);
-        builder.Property(x => x.CreatedAt)
+        builder.Property(x => x.Value)
             .IsRequired();
     }
 }
