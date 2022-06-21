@@ -20,16 +20,14 @@ public class ResultItemEntityTypeConfiguration : IEntityTypeConfiguration<Result
             .IsRequired()
             .HasConversion<string>();
 
-        builder.HasOne(x => x.Result)
-            .WithMany(x => x.Items)
-            .HasForeignKey(x => x.ResultId)
-            .OnDelete(DeleteBehavior.Cascade);
         builder.HasOne(x => x.FormItem)
             .WithMany()
-            .HasForeignKey(x => x.FormItemId);
+            .HasForeignKey(x => x.FormItemId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.HasMany(x => x.Values)
             .WithOne(x => x.ResultItem)
             .HasForeignKey(x => x.ResultItemId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

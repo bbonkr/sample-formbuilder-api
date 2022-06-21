@@ -12,5 +12,5 @@ public class ResultItem
 
     public virtual FormItem FormItem { get; set; }
 
-    public virtual IList<ResultItemValue> Values { get; set; }
+    public virtual IList<ResultItemValue> Values { get; set; } = new List<ResultItemValue>();
 }

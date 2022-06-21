@@ -23,14 +23,12 @@ namespace FormBuilder.Data.SqlServer.Migrations
                         name: "FK_ResultItem_FormItems_FormItemId",
                         column: x => x.FormItemId,
                         principalTable: "FormItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ResultItem_Results_ResultId",
                         column: x => x.ResultId,
                         principalTable: "Results",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -48,8 +46,7 @@ namespace FormBuilder.Data.SqlServer.Migrations
                         name: "FK_ResultItemValue_ResultItem_ResultItemId",
                         column: x => x.ResultItemId,
                         principalTable: "ResultItem",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

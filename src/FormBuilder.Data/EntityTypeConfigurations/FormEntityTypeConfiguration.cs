@@ -22,8 +22,7 @@ public class FormEntityTypeConfiguration : IEntityTypeConfiguration<Form>
 
         builder.HasMany(x => x.Results)
             .WithOne(x => x.Form)
-            .HasForeignKey(x => x.FormId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasForeignKey(x => x.FormId);
 
         builder.HasMany(x => x.Items)
             .WithOne(x => x.Form)

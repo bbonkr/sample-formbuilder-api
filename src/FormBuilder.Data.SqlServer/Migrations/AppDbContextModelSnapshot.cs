@@ -17,7 +17,7 @@ namespace FormBuilder.Data.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -431,13 +431,13 @@ namespace FormBuilder.Data.SqlServer.Migrations
                     b.HasOne("FormBuilder.Entities.FormItem", "FormItem")
                         .WithMany()
                         .HasForeignKey("FormItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("FormBuilder.Entities.Result", "Result")
                         .WithMany("Items")
                         .HasForeignKey("ResultId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("FormItem");
@@ -450,7 +450,7 @@ namespace FormBuilder.Data.SqlServer.Migrations
                     b.HasOne("FormBuilder.Entities.ResultItem", "ResultItem")
                         .WithMany("Values")
                         .HasForeignKey("ResultItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ResultItem");
