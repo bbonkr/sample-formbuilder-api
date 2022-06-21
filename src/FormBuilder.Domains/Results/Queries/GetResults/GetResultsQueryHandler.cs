@@ -24,6 +24,8 @@ public class GetResultsQueryHandler : IRequestHandler<GetResultsQuery, PagedMode
             .Include(x => x.Form)
             .Include(x => x.Items)
                 .ThenInclude(x => x.Values)
+            .Include(x => x.Items)
+                .ThenInclude(x => x.FormItem)
             .OrderByDescending(x => x.CreatedAt)
             .WhereDependsOn(request.FormId.HasValue, x => x.FormId == request.FormId)
             .Select(x => _mapper.Map<ResultModel>(x))

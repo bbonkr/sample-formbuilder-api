@@ -24,6 +24,8 @@ public class GetResultByIdQueryHandler : IRequestHandler<GetResultByIdQuery, Res
             .Include(x => x.Form)
             .Include(x => x.Items)
                 .ThenInclude(x => x.Values)
+            .Include(x => x.Items)
+                .ThenInclude(x => x.FormItem)
             .Where(x => x.Id == request.Id)
             .Select(x => _mapper.Map<ResultModel>(x))
             .FirstOrDefaultAsync();
