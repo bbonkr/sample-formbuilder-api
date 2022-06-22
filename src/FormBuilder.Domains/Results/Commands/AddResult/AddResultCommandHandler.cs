@@ -1,6 +1,7 @@
 using AutoMapper;
 using FormBuilder.Data;
 using FormBuilder.Domains.Results.Models;
+using FormBuilder.Domains.Results.Queries.GetResultById;
 using FormBuilder.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -9,9 +10,10 @@ namespace FormBuilder.Domains.Results.Commands.AddResult;
 
 public class AddResultCommandHandler : IRequestHandler<AddResultCommand, ResultModel>
 {
-    public AddResultCommandHandler(AppDbContext dbContext, IMapper mapper, ILogger<AddResultCommandHandler> logger)
+    public AddResultCommandHandler(AppDbContext dbContext, IMediator mediator, IMapper mapper, ILogger<AddResultCommandHandler> logger)
     {
         _dbContext = dbContext;
+        _mediator = mediator;
         _mapper = mapper;
         _logger = logger;
     }
@@ -35,12 +37,16 @@ public class AddResultCommandHandler : IRequestHandler<AddResultCommand, ResultM
 
         var added = _dbContext.Results.Add(result);
         await _dbContext.SaveChangesAsync(cancellationToken);
-        var model = _mapper.Map<ResultModel>(added.Entity);
+
+        //var model = _mapper.Map<ResultModel>(added.Entity);
+
+        var model = await _mediator.Send(new GetResultByIdQuery(added.Entity.Id), cancellationToken);
 
         return model;
     }
 
     private readonly AppDbContext _dbContext;
+    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
     private readonly ILogger _logger;
 }
