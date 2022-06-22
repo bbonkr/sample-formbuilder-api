@@ -5,5 +5,10 @@ namespace FormBuilder.Domains.Results.Queries.GetResultById;
 
 public class GetResultByIdQuery : IRequest<ResultModel>
 {
-    public Guid Id { get; set; }
+    public GetResultByIdQuery(Guid id)
+    {
+        Id = id;
+    }
+
+    public Guid Id { get; }
 }

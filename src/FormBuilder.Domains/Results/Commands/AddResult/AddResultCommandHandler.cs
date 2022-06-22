@@ -21,7 +21,16 @@ public class AddResultCommandHandler : IRequestHandler<AddResultCommand, ResultM
         var result = new Result
         {
             FormId = request.FormId,
+            // TODO: remove
             Content = request.Content,
+            Items = request.Items.Select(x => new ResultItem
+            {
+                FormItemId = x.FormItemId,
+                Values = x.Values.Select(v => new ResultItemValue
+                {
+                    Value = v.Value,
+                }).ToList(),
+            }).ToList(),
         };
 
         var added = _dbContext.Results.Add(result);
