@@ -22,5 +22,8 @@ public class LanguageEntityTypeConfiguration : IEntityTypeConfiguration<Language
         builder.Property(x => x.Ordinal)
             .IsRequired()
             .HasDefaultValue(1);
+        builder.Property(x => x.IsDefault)
+            .IsRequired()
+            .HasDefaultValue(false);
     }
 }

@@ -5,6 +5,7 @@ using FormBuilder.Domains.Forms.Commands.UpdateForm;
 using FormBuilder.Domains.Forms.Models;
 using FormBuilder.Domains.Forms.Queries.GetFormById;
 using FormBuilder.Domains.Forms.Queries.GetForms;
+using FormBuilder.Domains.Forms.Queries.GetLocalizedFormById;
 using kr.bbon.AspNetCore;
 using kr.bbon.AspNetCore.Models;
 using kr.bbon.AspNetCore.Mvc;
@@ -54,6 +55,24 @@ public class FormsController : ApiControllerBase
     public async Task<IActionResult> GetFormById([FromRoute] Guid id)
     {
         var form = await _mediator.Send(new GetFormByIdQuery(id));
+
+        return Ok(form);
+    }
+
+    /// <summary>
+    /// Get localized form by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="languageCode"></param>
+    /// <returns></returns>
+    [HttpGet("{id:guid}/{languageCode}")]
+    [ProducesResponseType(typeof(FormModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetLocalizedFormById([FromRoute] Guid id, [FromRoute] string languageCode = "en")
+    {
+        var form = await _mediator.Send(new GetLocalizedFormByIdQuery(id, languageCode));
 
         return Ok(form);
     }

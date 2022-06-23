@@ -8,7 +8,7 @@ public class FormItemOptionLocaledEntityTypeConfiguration : IEntityTypeConfigura
 {
     public void Configure(EntityTypeBuilder<FormItemOptionLocaled> builder)
     {
-        builder.HasKey(x => new {x.FormItemOptionId, x.LanguageId});
+        builder.HasKey(x => new { x.FormItemOptionId, x.LanguageId });
 
         builder.Property(x => x.FormItemOptionId)
             .IsRequired()
@@ -26,8 +26,9 @@ public class FormItemOptionLocaledEntityTypeConfiguration : IEntityTypeConfigura
             .OnDelete(DeleteBehavior.Cascade);
         builder.HasOne(x => x.Language)
             .WithMany()
-            .HasForeignKey(x => x.LanguageId);
-        
+            .HasForeignKey(x => x.LanguageId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.Navigation(x => x.Language)
             .AutoInclude();
     }

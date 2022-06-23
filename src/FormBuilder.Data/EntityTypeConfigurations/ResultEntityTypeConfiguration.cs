@@ -21,9 +21,9 @@ public class ResultEntityTypeConfiguration : IEntityTypeConfiguration<Result>
         builder.Property(x => x.CreatedAt)
             .IsRequired();
 
-        builder.HasMany(x => x.Items)
-            .WithOne(x => x.Result)
-            .HasForeignKey(x => x.ResultId)
-            .OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(x => x.Form)
+            .WithMany(x => x.Results)
+            .HasForeignKey(x => x.FormId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

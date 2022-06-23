@@ -24,9 +24,11 @@
   <ItemGroup>
     <Folder Include="Files\Profiles" />
     <Folder Include="Forms\Commands\Migrations\" />
+    <Folder Include="Forms\Queries\GetLocalizedFormById\" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Forms\Commands\Migrations\" />
+    <None Remove="Forms\Queries\GetLocalizedFormById\" />
   </ItemGroup>
 </Project>
