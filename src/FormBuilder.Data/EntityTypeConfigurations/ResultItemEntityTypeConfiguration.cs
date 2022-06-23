@@ -12,7 +12,8 @@ public class ResultItemEntityTypeConfiguration : IEntityTypeConfiguration<Result
 
         builder.Property(x => x.Id)
             .IsRequired()
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .ValueGeneratedOnAdd();
         builder.Property(x => x.ResultId)
             .IsRequired()
             .HasConversion<string>();
@@ -20,14 +21,14 @@ public class ResultItemEntityTypeConfiguration : IEntityTypeConfiguration<Result
             .IsRequired()
             .HasConversion<string>();
 
+        builder.HasOne(x => x.Result)
+            .WithMany(x => x.Items)
+            .HasForeignKey(x => x.ResultId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasOne(x => x.FormItem)
             .WithMany()
             .HasForeignKey(x => x.FormItemId)
-            .OnDelete(DeleteBehavior.NoAction);
-
-        builder.HasMany(x => x.Values)
-            .WithOne(x => x.ResultItem)
-            .HasForeignKey(x => x.ResultItemId)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

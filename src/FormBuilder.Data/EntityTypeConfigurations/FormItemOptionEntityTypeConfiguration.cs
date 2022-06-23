@@ -12,7 +12,8 @@ public class FormItemOptionEntityTypeConfiguration : IEntityTypeConfiguration<Fo
 
         builder.Property(x => x.Id)
             .IsRequired()
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .ValueGeneratedOnAdd();
         builder.Property(x => x.FormItemId)
             .IsRequired()
             .HasConversion<string>();
@@ -25,5 +26,10 @@ public class FormItemOptionEntityTypeConfiguration : IEntityTypeConfiguration<Fo
         builder.Property(x => x.Ordinal)
             .IsRequired()
             .HasDefaultValue(1);
+
+        builder.HasOne(x => x.FormItem)
+            .WithMany(x => x.Options)
+            .HasForeignKey(x => x.FormItemId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

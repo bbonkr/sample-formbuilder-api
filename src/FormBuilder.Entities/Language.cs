@@ -9,4 +9,6 @@ public class Language
     public string Name { get; set; } = string.Empty;
 
     public int Ordinal { get; set; } = 1;
+
+    public bool IsDefault { get; set; } = false;
 }

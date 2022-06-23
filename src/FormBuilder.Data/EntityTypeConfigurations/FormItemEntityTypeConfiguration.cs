@@ -38,9 +38,9 @@ public class FormItemEntityTypeConfiguration : IEntityTypeConfiguration<FormItem
             .IsRequired()
             .HasDefaultValue(1);
 
-        builder.HasMany(x => x.Options)
-            .WithOne(x => x.FormItem)
-            .HasForeignKey(x => x.FormItemId)
+        builder.HasOne(x => x.Form)
+            .WithMany(x => x.Items)
+            .HasForeignKey(x => x.FormId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

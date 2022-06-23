@@ -12,11 +12,17 @@ public class ResultItemValueEntityTypeConfiguration : IEntityTypeConfiguration<R
 
         builder.Property(x => x.Id)
             .IsRequired()
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .ValueGeneratedOnAdd();
         builder.Property(x => x.ResultItemId)
             .IsRequired()
             .HasConversion<string>();
         builder.Property(x => x.Value)
             .IsRequired();
+
+        builder.HasOne(x => x.ResultItem)
+            .WithMany(x => x.Values)
+            .HasForeignKey(x => x.ResultItemId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

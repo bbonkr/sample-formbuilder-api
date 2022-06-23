@@ -19,14 +19,5 @@ public class FormEntityTypeConfiguration : IEntityTypeConfiguration<Form>
             .HasMaxLength(1000);
         builder.Property(x => x.CreatedAt)
             .IsRequired();
-
-        builder.HasMany(x => x.Results)
-            .WithOne(x => x.Form)
-            .HasForeignKey(x => x.FormId);
-
-        builder.HasMany(x => x.Items)
-            .WithOne(x => x.Form)
-            .HasForeignKey(x => x.FormId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

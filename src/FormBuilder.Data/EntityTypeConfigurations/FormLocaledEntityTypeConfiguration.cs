@@ -8,7 +8,7 @@ public class FormLocaledEntityTypeConfiguration : IEntityTypeConfiguration<FormL
 {
     public void Configure(EntityTypeBuilder<FormLocaled> builder)
     {
-        builder.HasKey(x => new {x.FormId, x.LanguageId});
+        builder.HasKey(x => new { x.FormId, x.LanguageId });
 
         builder.Property(x => x.FormId)
             .IsRequired()
@@ -27,7 +27,8 @@ public class FormLocaledEntityTypeConfiguration : IEntityTypeConfiguration<FormL
 
         builder.HasOne(x => x.Language)
             .WithMany()
-            .HasForeignKey(x => x.LanguageId);
+            .HasForeignKey(x => x.LanguageId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Navigation(x => x.Language)
             .AutoInclude();

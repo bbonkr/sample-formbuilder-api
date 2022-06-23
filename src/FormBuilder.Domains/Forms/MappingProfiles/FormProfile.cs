@@ -12,28 +12,33 @@ public class FormProfile : Profile
             .ForMember(dest => dest.LanguageCode,
                 opt => opt.MapFrom(src => src.Language != null ? src.Language.Code : string.Empty))
             ;
-            CreateMap<FormItemLocaled, FormItemLocaledModel>()
-                .ForMember(dest => dest.LanguageCode,
-                    opt => opt.MapFrom(src => src.Language != null ? src.Language.Code : string.Empty))
-                ;
+        CreateMap<FormItemLocaled, FormItemLocaledModel>()
+            .ForMember(dest => dest.LanguageCode,
+                opt => opt.MapFrom(src => src.Language != null ? src.Language.Code : string.Empty))
+            ;
         CreateMap<FormItemOptionLocaled, FormItemOptionLocaledModel>()
             .ForMember(dest => dest.LanguageCode,
                 opt => opt.MapFrom(src => src.Language != null ? src.Language.Code : string.Empty))
         ;
         CreateMap<FormLocaledModel, FormLocaled>();
-        CreateMap<FormItemLocaledModel, FormItemLocaled>();
-        CreateMap<FormItemOptionLocaledModel, FormItemOptionLocaled>();
-        
+
+        CreateMap<FormItemLocaledModel, FormItemLocaled>()
+            .ForMember(dest => dest.FormItemId, opt => opt.Ignore());
+        CreateMap<FormItemOptionLocaledModel, FormItemOptionLocaled>()
+            .ForMember(dest => dest.FormItemOptionId, opt => opt.Ignore());
+
         CreateMap<Form, FormModel>()
             .ForMember(dest => dest.ResultsCount, opt => opt.MapFrom(src => src.Results == null ? 0 : src.Results.Count));
         CreateMap<FormModel, Form>();
 
-
         CreateMap<FormItem, FormItemModel>();
-        CreateMap<FormItemModel, FormItem>();
+        CreateMap<FormItemModel, FormItem>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
 
         CreateMap<FormItemOption, FormItemOptionModel>();
-        CreateMap<FormItemOptionModel, FormItemOption>();
+        CreateMap<FormItemOptionModel, FormItemOption>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.FormItemId, opt => opt.Ignore());
 
         CreateMap<FormItemTempModel, FormItemModel>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => Guid.Parse(src.Id)))
