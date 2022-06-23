@@ -6,7 +6,8 @@ public class Result
 
     public Guid FormId { get; set; }
 
-    public string Content { get; set; } = string.Empty;
+    //[Obsolete]
+    //public string Content { get; set; } = string.Empty;
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 

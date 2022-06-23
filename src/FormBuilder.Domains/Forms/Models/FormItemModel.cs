@@ -30,11 +30,11 @@ public class FormItemModel
 public class FormItemLocaledModel
 {
     public Guid? FormId { get; set; }
-    
+
     public Guid? LanguageId { get; set; }
-    
+
     public string? LanguageCode { get; set; }
-    
+
     public string Label { get; set; } = string.Empty;
 
     public string Description { get; set; } = string.Empty;
@@ -44,18 +44,18 @@ public class FormItemLocaledModel
 
 public class FormTempModel
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     public IEnumerable<FormItemTempModel>? Items { get; set; }
 }
 
 public class FormItemTempModel
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     public Guid? FormId { get; set; }
 
-    public string ElementType { get; set; }
+    public string ElementType { get; set; } = string.Empty;
 
     public string Name { get; set; } = string.Empty;
 

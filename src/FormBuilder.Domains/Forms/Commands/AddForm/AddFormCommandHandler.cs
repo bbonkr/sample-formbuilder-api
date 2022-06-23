@@ -29,24 +29,24 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
         {
             throw new ApiException(HttpStatusCode.NotFound, "Could not find default language information");
         }
-        
+
         var newForm = new Form
         {
             Title = request.Title,
-            Content = string.Empty,
+            //Content = string.Empty,
         };
-        
+
         if (request.Items?.Any() ?? false)
         {
             var formItemEntities = request.Items
                 .Select(x => _mapper.Map<FormItem>(x))
                 .ToList();
-            
+
             foreach (var formItemEntity in formItemEntities)
             {
                 var hasDefaultFormItemLocaled = formItemEntity.Locales
                     .Any(x => x.LanguageId == defaultLanguage.Id);
-                    
+
                 if (!hasDefaultFormItemLocaled)
                 {
                     var defaultFormItemLocaled = new FormItemLocaled
@@ -59,7 +59,7 @@ public class AddFormCommandHandler : IRequestHandler<AddFormCommand, FormModel>
                     };
                     formItemEntity.Locales.Add(defaultFormItemLocaled);
                 }
-                
+
                 if (formItemEntity.Options.Any())
                 {
                     foreach (var formItemOption in formItemEntity.Options)

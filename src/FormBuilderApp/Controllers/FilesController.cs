@@ -48,7 +48,7 @@ public class FilesController : ApiControllerBase
 
         var contentType = file.ContentType; // "application/octet-stream";
 
-        return File(file.Stream, contentType, file.Name);
+        return File(file.Stream!, contentType, file.Name);
     }
 
     /// <summary>

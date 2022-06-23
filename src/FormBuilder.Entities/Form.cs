@@ -4,10 +4,10 @@ public class Form
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
-    [Obsolete("Replace to Items field")]
-    public string Content { get; set; }
+    //[Obsolete("Replace to Items field")]
+    //public string Content { get; set; }
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 
