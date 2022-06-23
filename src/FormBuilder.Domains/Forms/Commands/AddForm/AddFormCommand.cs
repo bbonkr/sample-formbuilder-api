@@ -5,7 +5,7 @@ namespace FormBuilder.Domains.Forms.Commands.AddForm;
 
 public class AddFormCommand : IRequest<FormModel>
 {
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
 
     public IEnumerable<FormItemModel> Items { get; set; } = new List<FormItemModel>();
 

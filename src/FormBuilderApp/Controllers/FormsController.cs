@@ -113,6 +113,7 @@ public class FormsController : ApiControllerBase
     /// (Temporary) Migrate data
     /// </summary>
     /// <returns></returns>
+    //[Obsolete]
     //[HttpPost("migrate")]
     //[ProducesResponseType(StatusCodes.Status202Accepted)]
     //[ProducesResponseType(typeof(ApiResponseModel<ErrorModel>), StatusCodes.Status500InternalServerError)]

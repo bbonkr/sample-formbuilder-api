@@ -16,8 +16,8 @@ public class ResultEntityTypeConfiguration : IEntityTypeConfiguration<Result>
         builder.Property(x => x.FormId)
             .IsRequired()
             .HasConversion<string>();
-        builder.Property(x => x.Content)
-            .IsRequired(true);
+        //builder.Property(x => x.Content)
+        //    .IsRequired(true);
         builder.Property(x => x.CreatedAt)
             .IsRequired();
 

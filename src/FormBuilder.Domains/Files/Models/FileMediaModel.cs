@@ -13,12 +13,12 @@ public abstract class FileMediaModel
 
 public class DownloadFileMediaModel : FileMediaModel
 {
-    public Stream Stream { get; set; } = null;
+    public Stream? Stream { get; set; }
 }
 
 public class UploadFileMediaModel : FileMediaModel
 {
-    public string Uri { get; set; }
+    public string Uri { get; set; } = string.Empty;
 
-    public string UriForDeletion { get; set; }
+    public string UriForDeletion { get; set; } = string.Empty;
 }

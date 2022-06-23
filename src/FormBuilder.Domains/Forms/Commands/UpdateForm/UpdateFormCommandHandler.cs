@@ -55,19 +55,9 @@ public class UpdateFormCommandHandler : IRequestHandler<UpdateFormCommand, FormM
         }
 
         form.Title = request.Title;
-        // TODO remove
-        form.Content = string.Empty; // request.Content;
 
         if (form.Items.Any())
         {
-            // _dbContext.FormItems.RemoveRange(form.Items);
-
-            // foreach (var item in request.Items)
-            // {
-            //     var formItem = _mapper.Map<FormItem>(item);
-            //     _dbContext.FormItems.Add(formItem);
-            // }
-
             form.Items.Clear();
         }
 
